@@ -2,10 +2,8 @@
 # frozen_string_literal: true
 
 require 'thor'
-require './services/expenses_validator.rb'
-require './services/password_validator.rb'
-require './policies/password_policy.rb'
-require './policies/alt_password_policy.rb'
+Dir.glob('./services/*.rb', &method(:require))
+Dir.glob('./policies/*.rb', &method(:require))
 
 class AOC < Thor
     class_option :part2, type: :boolean, aliases: "-2"
@@ -32,6 +30,25 @@ class AOC < Thor
         puts File.readlines(input)
             .map { |s| s.split(":").map(&:strip) }
             .count { |policy, password| PasswordValidator.new(policyClass.new(policy)).call(password) }
+    end
+
+    desc "day3 INPUTFILE", "Toboggan trajectory"
+
+    def day3(input)
+        abort("File not found!") unless File.exists?(input)
+        treemap = File.readlines(input)
+                      .map { |s| s.strip.chars.map { |c| c == '#' ? 1 : 0 } }
+        counter = TreeCounter.new(treemap)
+        
+        if options[:part2]
+            puts counter.call(right: 1, down: 1) *
+                 counter.call(right: 3, down: 1) *
+                 counter.call(right: 5, down: 1) *
+                 counter.call(right: 7, down: 1) *
+                 counter.call(right: 1, down: 2)
+        else
+            puts counter.call(right: 3, down: 1)
+        end
     end
 end
 
