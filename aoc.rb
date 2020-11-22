@@ -50,6 +50,17 @@ class AOC < Thor
             puts counter.call(right: 3, down: 1)
         end
     end
+
+    desc "day4 INPUTFILE", "Passport validation"
+
+    def day4(input)
+        abort("File not found!") unless File.exists?(input)
+        passports = File.read(input)
+                        .split(/\n{2,}/)
+                        .map { |passport| PassportParser.new.call(passport) }
+        validator = PassportValidator.new(strict: options[:part2])
+        puts passports.count { |passport| validator.call(passport) }
+    end
 end
 
 AOC.start(ARGV)
