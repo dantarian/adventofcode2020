@@ -61,6 +61,24 @@ class AOC < Thor
         validator = PassportValidator.new(strict: options[:part2])
         puts passports.count { |passport| validator.call(passport) }
     end
+
+    desc "day5 INPUTFILE", "Boarding cards"
+
+    def day5(input)
+        abort("File not found!") unless File.exists?(input)
+        ids = File.readlines(input)
+                 .map(&:strip)
+                 .map { |s| s.gsub(/[FBLR]/, "F"=>"0", "L"=>"0", "B"=>"1", "R"=>"1") }
+                 .map { |s| s.to_i(2) }
+        if options[:part2]
+            puts ids.sort
+                    .each_slice(2)
+                    .select { |a,b| b == a + 2 }
+                    .first.first + 1
+        else
+            puts ids.max
+        end
+    end
 end
 
 AOC.start(ARGV)
