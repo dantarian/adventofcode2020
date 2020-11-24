@@ -79,6 +79,25 @@ class AOC < Thor
             puts ids.max
         end
     end
+
+    desc "day6 INPUTFILE", "Customs forms"
+
+    def day6(input)
+        abort("File not found!") unless File.exists?(input)
+        declarations = File.read(input).split(/\n{2,}/)
+        if options[:part2]
+            puts declarations
+                .map { |s| 
+                    ('a'..'z').select { |c|
+                        s.split(/\n/).all? { |l| l.include?(c) }
+                    }.count
+                }.sum
+        else
+            puts declarations
+                    .map { |s| ('a'..'z').select { |c| s.include?(c) }.count }
+                    .sum
+        end
+    end
 end
 
 AOC.start(ARGV)
