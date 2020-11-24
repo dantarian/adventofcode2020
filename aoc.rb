@@ -98,6 +98,24 @@ class AOC < Thor
                     .sum
         end
     end
+
+    desc "day7 INPUTFILE", "Bag checker"
+
+    def day7(input)
+        abort("File not found!") unless File.exists?(input)
+        puts BagChecker.new(File.readlines(input)).call("shiny gold", inwards: options[:part2])
+    end
+
+    desc "day8 INPUTFILE", "Handheld halting"
+
+    def day8(input)
+        abort("File not found!") unless File.exists?(input)
+        if options[:part2]
+            puts CodeFuzzer.new(File.readlines(input)).call()
+        else
+            puts CodeRunner.new(File.readlines(input)).call()[1]
+        end
+    end
 end
 
 AOC.start(ARGV)
