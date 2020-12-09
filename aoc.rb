@@ -116,6 +116,20 @@ class AOC < Thor
             puts CodeRunner.new(File.readlines(input)).call()[1]
         end
     end
+
+    desc "day9 WINDOW INPUTFILE", "Encoding error"
+
+    def day9(window_size, input)
+        abort("Please specify a positive integer as the window.") unless window_size.to_i > 0
+        abort("File not found!") unless File.exists?(input)
+        values = File.readlines(input).map(&:strip).map(&:to_i)
+        invalid_code =  InvalidCodeFinder.new(window: window_size.to_i, values: values).call
+        if options[:part2]
+            puts NumberSetFinder.new(values).call(invalid_code)
+        else
+            puts invalid_code
+        end
+    end
 end
 
 AOC.start(ARGV)
