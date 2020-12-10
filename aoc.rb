@@ -130,6 +130,24 @@ class AOC < Thor
             puts invalid_code
         end
     end
+
+    desc "day10 INPUTFILE", "Adapter array"
+
+    def day10(input)
+        abort("File not found!") unless File.exists?(input)
+        jolts = [0] + File.readlines(input).map(&:strip).map(&:to_i).sort
+        jolts.push (jolts.max + 3)
+        if options[:part2]
+            paths = jolts.reverse.inject({}) do |acc, val|
+                acc[val] = [(val+1 .. val+3).map { |i| acc[i] || 0 }.sum, 1].max
+                acc
+            end
+            puts paths[0]
+        else
+            diffs = jolts.each_cons(2).map{ |a,b| b - a }.tally
+            puts diffs[1] * diffs[3]
+        end
+    end
 end
 
 AOC.start(ARGV)
