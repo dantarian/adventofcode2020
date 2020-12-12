@@ -148,6 +148,17 @@ class AOC < Thor
             puts diffs[1] * diffs[3]
         end
     end
+
+    desc "day11 INPUTFILE", "Seating system"
+
+    def day11(input)
+        abort("File not found!") unless File.exists?(input)
+        if options[:part2]
+            puts SeatFinder.new(File.readlines(input), consecutive: false).call(5)
+        else
+            puts SeatFinder.new(File.readlines(input)).call
+        end
+    end
 end
 
 AOC.start(ARGV)
