@@ -66,9 +66,7 @@ class WaypointNavigator
     end
 
     def forward(value)
-        value.times do 
-            @x = @x + @waypoint_x
-            @y = @y + @waypoint_y
-        end
+        @x = @x + (@waypoint_x * value)
+        @y = @y + (@waypoint_y * value)
     end
 end
