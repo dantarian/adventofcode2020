@@ -159,6 +159,17 @@ class AOC < Thor
             puts SeatFinder.new(File.readlines(input)).call
         end
     end
+
+    desc "day12 INPUTFILE", "Rain risk"
+
+    def day12(input)
+        abort("File not found!") unless File.exists?(input)
+        if options[:part2]
+            puts WaypointNavigator.new(File.readlines(input)).call
+        else
+            puts Navigator.new(File.readlines(input)).call
+        end
+    end
 end
 
 AOC.start(ARGV)
