@@ -170,6 +170,36 @@ class AOC < Thor
             puts Navigator.new(File.readlines(input)).call
         end
     end
+
+    desc "day13 INPUTFILE", "Shuttle search"
+
+    def day13(input)
+        abort("File not found!") unless File.exists?(input)
+        line1, line2 = File.readlines(input)
+        if options[:part2]
+            puts ScheduleSyncer.new(line2).call
+        else
+            target_departure = line1.strip.to_i
+            puts line2.strip
+                      .split(",")
+                      .reject { |str| str == "x" }
+                      .map(&:to_i)
+                      .map { |id| [id, id - (target_departure % id)] }
+                      .min { |a,b| a.last <=> b.last }
+                      .inject(1) { |acc, val| acc * val }
+        end
+    end
+
+    desc "day14 INPUTFILE", "Docking data"
+
+    def day14(input)
+        abort("File not found!") unless File.exists?(input)
+        if options[:part2]
+            puts QuantumMemoryInitialiser.new(File.readlines(input)).call
+        else
+            puts MemoryInitialiser.new(File.readlines(input)).call
+        end
+    end
 end
 
 AOC.start(ARGV)
