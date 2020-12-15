@@ -200,6 +200,17 @@ class AOC < Thor
             puts MemoryInitialiser.new(File.readlines(input)).call
         end
     end
+
+    desc "day15 INITIAL_STATE", "Rambunctious recitation"
+
+    def day15(input)
+        game = MemoryGamePlayer.new(input)
+        if options[:part2]
+            puts game.call(30000000)
+        else
+            puts game.call(2020)
+        end
+    end
 end
 
 AOC.start(ARGV)
