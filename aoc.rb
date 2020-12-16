@@ -211,6 +211,20 @@ class AOC < Thor
             puts game.call(2020)
         end
     end
+
+
+    desc "day16 FIELDS YOUR_TICKET OTHER_TICKETS", "Ticket translation"
+
+    def day16(fields, ticket, other_tickets)
+        abort("File not found: #{fields}") unless File.exists?(fields)
+        abort("File not found: #{ticket}") unless File.exists?(ticket)
+        abort("File not found: #{other_tickets}") unless File.exists?(other_tickets)
+        if options[:part2]
+            puts TicketProcessor.new(File.readlines(fields), File.readlines(other_tickets)).call(File.readlines(ticket))
+        else
+            puts InvalidTicketSummer.new(File.readlines(fields)).call(File.readlines(other_tickets))
+        end
+    end
 end
 
 AOC.start(ARGV)
