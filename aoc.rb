@@ -234,6 +234,16 @@ class AOC < Thor
             puts GameOfLife.new(File.readlines(input)).call(6)
         end
     end
+
+    desc "day18 INPUTFILE", "Operation order"
+
+    def day18(input)
+        if options[:part2]
+            puts AdvancedCalculator.new(File.readlines(input)).call
+        else
+            puts Calculator.new(File.readlines(input)).call
+        end
+    end
 end
 
 AOC.start(ARGV)
