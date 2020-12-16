@@ -228,6 +228,7 @@ class AOC < Thor
     desc "day17 INPUTFILE", "Conway cubes"
 
     def day17(input)
+        abort("File not found!") unless File.exists?(input)
         if options[:part2]
             puts GameOfLife.new(File.readlines(input), dimensions: 4).call(6)
         else
@@ -238,11 +239,22 @@ class AOC < Thor
     desc "day18 INPUTFILE", "Operation order"
 
     def day18(input)
+        abort("File not found!") unless File.exists?(input)
         if options[:part2]
             puts AdvancedCalculator.new(File.readlines(input)).call
         else
             puts Calculator.new(File.readlines(input)).call
         end
+    end
+
+    desc "day19 RULES CANDIDATES", "Monster messages"
+
+    def day19(rules, candidates)
+        abort("File not found: #{rules}") unless File.exists?(rules)
+        abort("File not found: #{candidates}") unless File.exists?(candidates)
+        puts ValidMessageFinder
+            .new(File.readlines(rules), part2: options[:part2])
+            .call(File.readlines(candidates)).count
     end
 end
 
