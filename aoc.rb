@@ -212,7 +212,6 @@ class AOC < Thor
         end
     end
 
-
     desc "day16 FIELDS YOUR_TICKET OTHER_TICKETS", "Ticket translation"
 
     def day16(fields, ticket, other_tickets)
@@ -223,6 +222,16 @@ class AOC < Thor
             puts TicketProcessor.new(File.readlines(fields), File.readlines(other_tickets)).call(File.readlines(ticket))
         else
             puts InvalidTicketSummer.new(File.readlines(fields)).call(File.readlines(other_tickets))
+        end
+    end
+
+    desc "day17 INPUTFILE", "Conway cubes"
+
+    def day17(input)
+        if options[:part2]
+            puts GameOfLife.new(File.readlines(input), dimensions: 4).call(6)
+        else
+            puts GameOfLife.new(File.readlines(input)).call(6)
         end
     end
 end
