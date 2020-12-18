@@ -256,6 +256,22 @@ class AOC < Thor
             .new(File.readlines(rules), part2: options[:part2])
             .call(File.readlines(candidates)).count
     end
+
+    desc "day20 INPUTFILE", "Jurassic jigsaw"
+
+    def day20(input)
+        abort("File not found!") unless File.exists?(input)
+        corner_finder = CornerTileFinder.new(TileReader.new.call(input))
+        corners = corner_finder.call
+        if options[:part2]
+            matched_tiles = corner_finder.tiles
+            image = ImageBuilder.new(matched_tiles, corners).call
+            sea_monster_locations = MonsterFinder.new(image).call
+            puts image.map { |str| str.count("#") }.sum - sea_monster_locations.size
+        else
+            puts corners.map(&:id).inject(1) { |acc, val| acc *= val }
+        end
+    end
 end
 
 AOC.start(ARGV)
