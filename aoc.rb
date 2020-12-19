@@ -285,6 +285,21 @@ class AOC < Thor
             puts NonAllergenicCounter.new(recipes).call(allergenics.keys)
         end
     end
+
+    desc "day22 INPUTFILE", "Crab combat"
+
+    def day22(input)
+        abort("File not found!") unless File.exists?(input)
+        deck1, deck2 = File.read(input).split(/\n{2,}/).map do |deck|
+            _, *deck = deck.split(/\n/)
+            deck.map(&:to_i)
+        end
+        if options[:part2]
+            puts RecursiveCombat.new.call(deck1, deck2)
+        else
+            puts CrabCombat.new.call(deck1, deck2)
+        end
+    end
 end
 
 AOC.start(ARGV)
