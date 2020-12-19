@@ -272,6 +272,19 @@ class AOC < Thor
             puts corners.map(&:id).inject(1) { |acc, val| acc *= val }
         end
     end
+
+    desc "day21 INPUTFILE", "Allergen assessment"
+
+    def day21(input)
+        abort("File not found!") unless File.exists?(input)
+        recipes = File.readlines(input)
+        allergenics = AllergenFinder.new(recipes).call
+        if options[:part2]
+            puts allergenics.to_a.sort { |a,b| a.last<=>b.last }.map(&:first).join(",")
+        else
+            puts NonAllergenicCounter.new(recipes).call(allergenics.keys)
+        end
+    end
 end
 
 AOC.start(ARGV)
