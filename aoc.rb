@@ -300,6 +300,17 @@ class AOC < Thor
             puts CrabCombat.new.call(deck1, deck2)
         end
     end
+
+    desc "day23 INITIAL_STATE TURNS", "Crab cups"
+
+    def day23(initial_state, turns)
+        if options[:part2]
+            state = initial_state.chars.map(&:to_i) + (initial_state.size + 1 .. 1_000_000).to_a
+            puts CrabCups.new(state).call(turns.to_i, output_type: :next_two_multiplied)
+        else
+            puts CrabCups.new(initial_state.chars.map(&:to_i)).call(turns.to_i)
+        end
+    end
 end
 
 AOC.start(ARGV)
