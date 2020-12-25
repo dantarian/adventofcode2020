@@ -311,6 +311,28 @@ class AOC < Thor
             puts CrabCups.new(initial_state.chars.map(&:to_i)).call(turns.to_i)
         end
     end
+
+    desc "day24 INPUTFILE", "Lobby layout"
+
+    def day24(input)
+        abort("File not found!") unless File.exists?(input)
+        tiles = HexTileFlipper.new(File.readlines(input)).call
+        if options[:part2]
+            puts HexGameOfLife.new(tiles).call(100)
+        else
+            puts tiles.count
+        end
+    end
+
+    desc "day25 CARD_KEY DOOR_KEY", "Combo breaker"
+
+    def day25(card_key, door_key)
+        card_key = card_key.to_i
+        door_key = door_key.to_i
+        abort("Please supply two positive numbers.") unless card_key > 0 && door_key > 0
+        card_loops, door_loops = LoopSizeFinder.new.call(card_key, door_key)
+        puts EncryptionHandshaker.new.call(card_loops, door_key)
+    end
 end
 
 AOC.start(ARGV)
